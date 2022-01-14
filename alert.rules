@@ -1,0 +1,76 @@
+groups:
+- name: example
+  rules:
+  # Alert for any instance that is unreachable for >5 minutes.
+  - alert: service_down
+    expr: up == 0
+    for: 2m
+    labels:
+      severity: page
+    annotations:
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes."
+ 
+  - alert: high_load
+    expr: node_load1 > 0.5
+    for: 2m
+    labels:
+      severity: page
+    annotations:
+      summary: "Instance {{ $labels.instance }} under high load"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} is under high load."
+   
+  - alert: admin_container_down_dev
+    expr: engine_daemon_container_states_containers{instance="54.94.85.94:9323", job="admin_container_dev", state="running"} < 4
+    for: 2m
+    labels:
+      severity: urgent
+    annotations:
+      summary: "Instance {{ $labels.instance }} one or more container stopped"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has one or more containers stopped."
+
+  - alert: admin_container_down_prod
+    expr: engine_daemon_container_states_containers{instance="54.94.51.180:9323", job="admin_container_prod", state="running"} < 4
+    for: 2m
+    labels:
+      severity: urgent
+    annotations:
+      summary: "Instance {{ $labels.instance }} one or more container stopped"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has one or more containers stopped."
+
+  - alert: admin_container_down_qa
+    expr: engine_daemon_container_states_containers{instance="54.94.63.195:9323", job="admin_container_qa", state="running"} < 4
+    for: 2m
+    labels:
+      severity: urgent
+    annotations:
+      summary: "Instance {{ $labels.instance }} one or more container stopped"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has one or more containers stopped."
+
+  - alert: isv_container_down_dev
+    expr: engine_daemon_container_states_containers{instance="52.52.201.255:9323", job="isv_container_dev", state="running"} < 3
+    for: 2m
+    labels:
+      severity: urgent
+    annotations:
+      summary: "Instance {{ $labels.instance }} one or more container stopped"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has one or more containers stopped."    
+
+  - alert: isv_container_down_qa
+    expr: engine_daemon_container_states_containers{instance="54.176.52.206:9323", job="isv_container_qa", state="running"} < 3
+    for: 2m
+    labels:
+      severity: urgent
+    annotations:
+      summary: "Instance {{ $labels.instance }} one or more container stopped"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has one or more containers stopped."
+
+  - alert: isv_container_down_valsons_virtus
+    expr: engine_daemon_container_states_containers{instance="54.241.15.78:9323", job="isv_container_valsons_virtus", state="running"} < 3
+    for: 2m
+    labels:
+      severity: urgent
+    annotations:
+      summary: "Instance {{ $labels.instance }} one or more container stopped"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has one or more containers stopped."    
+      

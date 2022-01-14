@@ -1,0 +1,5 @@
+docker run -d -p 2000:2000 \
+    --name="promteams" \
+    -e TEAMS_INCOMING_WEBHOOK_URL="https://virtustex.webhook.office.com/webhookb2/915f65b1-146a-4b42-b966-8afeab631a5b@b2efcb5b-ba75-41f4-9cfb-e80f6ee05bcf/IncomingWebhook/7b0ea821626f4c95a44b4a2ae9e87eac/e677038b-936d-489e-be47-32232d3df4b6" \
+    -e TEAMS_REQUEST_URI=alertmanager \
+    quay.io/prometheusmsteams/prometheus-msteams

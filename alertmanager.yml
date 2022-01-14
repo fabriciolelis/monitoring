@@ -1,0 +1,21 @@
+route:
+  group_by: [ alertname ]
+  receiver: 'mail' # default receiver
+  repeat_interval: 24h
+  routes:
+    - receiver: 'teams'
+      repeat_interval: 12h
+      matchers:
+        - severity="medium"
+
+    - receiver: 'teams'
+      repeat_interval: 4h
+      matchers:
+        - severity="high"
+
+
+receivers:
+  - name: 'teams'
+    webhook_configs:
+      - url: "http://prom2teams:8089"
+        send_resolved: true

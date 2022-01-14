@@ -1,0 +1,43 @@
+version: '3.3'
+
+services:
+
+  prometheus:
+    image: linuxtips/prometheus_alpine
+    volumes:
+      - ./conf/prometheus/:/etc/prometheus/
+      - prometheus_data:/var/lib/prometheus
+    ports:
+      - 9090:9090
+
+  alertmanager:
+    image: linuxtips/alertmanager_alpine
+    volumes:
+      - ./conf/alertmanager/:/etc/alertmanager/
+    ports:
+      - 9093:9093
+
+  prom2teams:
+    image: idealista/prom2teams:2.7.0
+    restart: unless-stopped
+    environment:
+      PROM2TEAMS_CONNECTOR: "url from the webhook"
+    ports:
+      - 8089:8089
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+    env_file:
+      - grafana.config
+    networks:
+      - backend
+      - frontend
+    ports:
+      - 3000:3000
+
+volumes:
+    prometheus_data:
